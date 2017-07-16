@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   traefik:
     image: traefik
@@ -15,3 +15,10 @@ services:
     command: --web --docker --logLevel=DEBUG --docker.exposedbydefault=false
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - homeserver2    
+
+networks:
+  homeserver2:
+    external: true
+        

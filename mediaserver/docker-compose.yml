@@ -1,0 +1,79 @@
+version: '2'
+
+services:
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    ports:
+     - 8080
+    volumes:
+      - /mnt/filer/Downloads:/data/Downloads
+      - /mnt/filer/Film:/data/Film
+      - /mnt/filer/Settings/sabnzbd:/config
+    restart: always
+    networks:
+      - homeserver2
+    environment:
+     - PUID=0
+     - PGID=0
+    labels:
+      - traefik.enable=true
+      - traefik.backend=sabnzbd 
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8080
+      - traefik.frontend.rule=Host:sabnzbd.local
+
+  sonarr:
+    image: linuxserver/sonarr
+    ports: 
+     - 8989
+    volumes:
+     - /dev/rtc:/dev/rtc:ro
+     - /volumes/sonarr:/config
+     - /rar2fs/:/data
+    restart: always   
+    environment:
+     - PUID=0
+     - GUID=0 
+    labels:
+      - traefik.backend=sonarr
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8989
+      - traefik.frontend.rule=Host:sonarr.${DOMAIN}
+  
+  deluge:
+    image: linuxserver/deluge
+    environment:
+     - PUID=0
+     - GUID=0
+     - TZ=SE
+    labels:
+      - traefik.backend=deluge
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8112
+      - traefik.frontend.rule=Host:deluge.${DOMAIN}
+    ports:
+      - 8112
+    volumes:
+      - /volumes/deluge:/config
+      - /mnt:/data
+  
+  plex:
+    image: linuxserver/plex
+    ports:
+     - 32400:32400
+    environment:
+     - PUID=0
+     - GUID=0
+     - TZ=SE
+    labels:
+      - traefik.backend=plex
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=32400
+      - traefik.frontend.rule=Host:plex.${DOMAIN}
+    volumes:
+      - /volumes/plex:/config
+      - /rar2fs:/data
+
+networks:
+  homeserver2:
+    external: true
