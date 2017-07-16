@@ -28,34 +28,43 @@ services:
      - 8989
     volumes:
      - /dev/rtc:/dev/rtc:ro
-     - /volumes/sonarr:/config
-     - /rar2fs/:/data
-    restart: always   
+     - /mnt/filer/Settings/sonarr:/config
+     - /mnt/filer/Rar2fs/TV:/data/TV
+     - /mnt/filer/Rar2fs/TVCharlotte:/data/TVCharlotte
+     - /mnt/filer/Anime:/data/Anime
+    restart: always
+    networks:
+      - homeserver2
     environment:
      - PUID=0
      - GUID=0 
     labels:
+      - traefik.enable=true
       - traefik.backend=sonarr
       - traefik.frontend.passHostHeader=true
       - traefik.port=8989
-      - traefik.frontend.rule=Host:sonarr.${DOMAIN}
+      - traefik.frontend.rule=Host:sonarr.local
   
   deluge:
     image: linuxserver/deluge
+    restart: always
+    networks:
+      - homeserver2
     environment:
      - PUID=0
      - GUID=0
      - TZ=SE
     labels:
+      - traefik.enable=true
       - traefik.backend=deluge
       - traefik.frontend.passHostHeader=true
       - traefik.port=8112
-      - traefik.frontend.rule=Host:deluge.${DOMAIN}
+      - traefik.frontend.rule=Host:deluge.local
     ports:
       - 8112
     volumes:
-      - /volumes/deluge:/config
-      - /mnt:/data
+      - /mnt/filer/Settings/deluge:/config
+      - /mnt/filer/:/data
   
   plex:
     image: linuxserver/plex
@@ -65,14 +74,11 @@ services:
      - PUID=0
      - GUID=0
      - TZ=SE
-    labels:
-      - traefik.backend=plex
-      - traefik.frontend.passHostHeader=true
-      - traefik.port=32400
-      - traefik.frontend.rule=Host:plex.${DOMAIN}
+    restart: always
+    network_mode: "host"
     volumes:
-      - /volumes/plex:/config
-      - /rar2fs:/data
+      - /mnt/filer/Settings/plex:/config
+      - /mnt/filer/Rar2fs:/data
 
 networks:
   homeserver2:
