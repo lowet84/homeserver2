@@ -29,6 +29,7 @@ services:
     volumes:
      - /dev/rtc:/dev/rtc:ro
      - /mnt/filer/Settings/sonarr:/config
+     - /mnt/filer/Rar2fs/Downloads:/data/Downloads
      - /mnt/filer/Rar2fs/TV:/data/TV
      - /mnt/filer/Rar2fs/TVCharlotte:/data/TVCharlotte
      - /mnt/filer/Anime:/data/Anime
