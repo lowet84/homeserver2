@@ -3,7 +3,6 @@ services:
   traefik:
     image: traefik
     ports:
-      - 8080:8080
       - 80:80
     restart: always
     labels:
@@ -17,6 +16,23 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - homeserver2    
+
+  public:
+    image: traefik
+    ports: 
+      - 31080:80
+      - 31443:443
+    labels:
+      - traefik.enable=true
+      - traefik.backend=public
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8080
+      - traefik.frontend.rule=Host:traefik-public.local
+    command: --web --logLevel=DEBUG --configfile=/config/traefik-public.toml
+    volumes:
+      - /mnt/filer/Settings/traefik:/config
+    networks:
+      - homeserver2
 
 networks:
   homeserver2:
