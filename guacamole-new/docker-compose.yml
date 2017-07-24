@@ -1,0 +1,50 @@
+version: '2'
+services:
+  mysql:
+    image: mysql
+    ports:
+      - 3306
+    restart: always
+    volumes:
+      - /mnt/filer/Settings/guacamole-new:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: gurkburk
+    networks:
+      - homeserver2
+
+  mysql-init:
+    image: lowet84/mysql-guacamole-init-new
+    build: init/
+    volumes:
+     - /mnt/filer/Settings/guacamole-new:/data
+    environment:
+      PASSWORD: gurkburk
+    networks:
+      - homeserver2
+
+  guacd:
+    image: glyptodon/guacd
+    restart: always
+    networks:
+      - homeserver2
+
+  guacamole:
+    image: lowet84/guacamole-new
+    build: guacamole/
+    ports:
+      - 8008:8080
+    restart: always
+    networks:
+      - homeserver2
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_DATABASE: guacamole_db
+      MYSQL_USER: guacamole_user
+      MYSQL_PASSWORD: guacamole_password
+      MYSQL_HOSTNAME: mysql
+      GUACD_PORT_4822_TCP_ADDR: guacd
+      GUACD_PORT_4822_TCP_PORT: 4822
+
+networks:
+  homeserver2:
+    external: true
