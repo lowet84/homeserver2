@@ -1,21 +1,5 @@
 version: '3'
 services:
-  rethinkdb:
-    image: rethinkdb
-    ports:
-      - 28015:28015
-    restart: always
-    labels:
-      - traefik.enable=true
-      - traefik.backend=rethinkdb
-      - traefik.frontend.passHostHeader=true
-      - traefik.port=8080
-      - traefik.frontend.rule=Host:rethinkdb.local
-    volumes:
-      - /mnt/filer/Settings/audiobookserver:/data
-    networks:
-      - homeserver2    
-  
   audiobookserver-web:
     image: lowet84/audiobookserver-web
     restart: always
