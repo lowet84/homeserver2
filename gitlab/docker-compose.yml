@@ -1,10 +1,6 @@
 version: '2'
 
 services:
-  sync:
-    image: lowet84/git-sync
-    build: ./sync
-
   redis:
     restart: always
     image: sameersbn/redis:latest
@@ -34,9 +30,6 @@ services:
     depends_on:
     - redis
     - postgresql
-    #ports:
-    #- "10080:80"
-    #- "10022:22"
     networks:
     - homeserver2
     volumes:

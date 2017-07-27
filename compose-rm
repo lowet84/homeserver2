@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for D in `ls -d */`
+do
+  cd $D
+  if [ -f 'docker-compose.yml' ]; then
+    docker-compose stop && docker-compose rm -f
+  fi
+  cd ..
+done
