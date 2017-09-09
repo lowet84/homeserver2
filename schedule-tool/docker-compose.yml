@@ -1,0 +1,19 @@
+version: '3'
+services:
+  schedule-tool:
+    image: lowet84/schedule-tool
+    environment:
+     - DATABASE=rethinkdb
+    networks:
+    - homeserver2
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.backend=schedule-tool
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=5010
+      - traefik.frontend.rule=Host:schedule.local
+
+networks:
+  homeserver2:
+    external: true
