@@ -1,0 +1,25 @@
+version: '3'
+services:
+  listen:
+    image: lowet84/listen    
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.backend=listen
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=7000
+      - traefik.frontend.rule=Host:listen.local
+    volumes:
+      -  /mnt/filer/Audiobooks:/data
+    networks:
+      - homeserver2
+    environment:
+      - DATABASE=rethinkdb
+      - AUTH_AUDIENCE=https://listen.fredriklowenhamn.se
+      - AUTH_SCOPE=full_access
+      - AUTH_CLIENT_ID=bnat0HG5RxUBCQaAP4ZGuN92P0j00BzI
+      - AUTH_DOMAIN=lowet.eu.auth0.com
+
+networks:
+  homeserver2:
+    external: true
