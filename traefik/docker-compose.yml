@@ -19,6 +19,7 @@ services:
 
   public:
     image: traefik
+    restart: always
     ports: 
       - 31080:80
       - 31443:443
