@@ -60,7 +60,7 @@ services:
     volumes:
       - /mnt/filer/Settings/deluge:/config
       - /mnt/filer/:/data
-  
+
   plex:
     image: linuxserver/plex
     ports:
