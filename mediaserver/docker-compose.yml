@@ -42,24 +42,24 @@ services:
       - traefik.port=8989
       - traefik.frontend.rule=Host:sonarr.local
   
-  deluge:
-    image: linuxserver/deluge
-    restart: always
-    networks:
-      - homeserver2
-    environment:
-     - PUID=0
-     - GUID=0
-     - TZ=SE
-    labels:
-      - traefik.enable=true
-      - traefik.backend=deluge
-      - traefik.frontend.passHostHeader=true
-      - traefik.port=8112
-      - traefik.frontend.rule=Host:deluge.local
-    volumes:
-      - /mnt/filer/Settings/deluge:/config
-      - /mnt/filer/:/data
+#  deluge:
+#    image: linuxserver/deluge
+#    restart: always
+#    networks:
+#      - homeserver2
+#    environment:
+#     - PUID=0
+#     - GUID=0
+#     - TZ=SE
+#    labels:
+#      - traefik.enable=true
+#      - traefik.backend=deluge
+#      - traefik.frontend.passHostHeader=true
+#      - traefik.port=8112
+#      - traefik.frontend.rule=Host:deluge.local
+#    volumes:
+#      - /mnt/filer/Settings/deluge:/config
+#      - /mnt/filer/:/data
 
   plex:
     image: linuxserver/plex

@@ -1,0 +1,25 @@
+version: '3'
+services:
+  delugevpn:
+    image: lowet84/delugevpn
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /mnt/filer/Settings/delugevpn/vpn:/etc/openvpn
+      - /mnt/filer/Settings/delugevpn/deluge:/config
+      - /mnt/filer:/data
+    devices:
+      - /dev/net/tun
+    labels:
+      - traefik.enable=true
+      - traefik.backend=delugevpn
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8112
+      - traefik.frontend.rule=Host:delugevpn.local
+    networks:
+      - homeserver2
+
+networks:
+  homeserver2:
+    external: true    
+
