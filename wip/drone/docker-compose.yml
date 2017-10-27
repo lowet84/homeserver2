@@ -13,10 +13,9 @@ services:
       - DRONE_OPEN=true
       - DRONE_GITHUB=true
     env_file: 
-      - /mnt/filer/Settings/drone/secrets.env
-      - path.env
+      - ${SETTINGS_PATH}/drone/secrets.env
     volumes:
-      - /mnt/filer/Settings/drone:/var/lib/drone/
+      - ${SETTINGS_PATH}/drone:/var/lib/drone/
     networks:
       - homeserver2
   drone-agent:
@@ -29,7 +28,7 @@ services:
     environment:
       - DRONE_SERVER=ws://drone-server:8000/ws/broker
       - DRONE_GITHUB=true
-    env_file: /mnt/filer/Settings/drone/secrets.env
+    env_file: ${SETTINGS_PATH}/drone/secrets.env
     networks:
       - homeserver2
 
