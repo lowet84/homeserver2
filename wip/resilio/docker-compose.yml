@@ -1,0 +1,21 @@
+version: '3'
+services: 
+  resilio1:
+    image: nimmis/resilio-sync
+    restart: always
+    volumes:
+     - resilio1:/data
+    environment:
+     - RSLSYNC_SECRET=AYEFUB4EJXUMXDSGAM5JYX6AOCYPS2SYY
+
+  resilio2:
+    image: nimmis/resilio-sync
+    restart: always
+    volumes:
+     - resilio2:/data
+    environment:
+     - RSLSYNC_SECRET=AYEFUB4EJXUMXDSGAM5JYX6AOCYPS2SYY
+
+volumes:
+  resilio1:
+  resilio2:
