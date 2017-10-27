@@ -8,7 +8,7 @@ services:
       - traefik.backend=drone-server
       - traefik.frontend.passHostHeader=true
       - traefik.port=8000
-      - traefik.frontend.rule=Host:drone.local
+      - traefik.frontend.rule=Host:drone.${HOMESERVER_DOMAIN}
     environment:
       - DRONE_OPEN=true
       - DRONE_GITHUB=true
