@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  backup:
+    build: .
+    volumes:
+      - ${SETTINGS_PATH}:/settings
+      - ${BACKUP_PATH}:/backup
+    networks:
+      - homeserver2
+    
+
+networks:
+  homeserver2:
+    external: true
