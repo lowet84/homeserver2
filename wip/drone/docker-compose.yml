@@ -12,7 +12,9 @@ services:
     environment:
       - DRONE_OPEN=true
       - DRONE_GITHUB=true
-    env_file: /mnt/filer/Settings/drone/secrets.env
+    env_file: 
+      - /mnt/filer/Settings/drone/secrets.env
+      - path.env
     volumes:
       - /mnt/filer/Settings/drone:/var/lib/drone/
     networks:
