@@ -1,37 +1,33 @@
 version: '3'
 services:
   drone-server:
-    image: drone/drone
+    image: drone/drone:0.8.1
     restart: always
-    labels:
-      - traefik.enable=true
-      - traefik.backend=drone-server
-      - traefik.frontend.passHostHeader=true
-      - traefik.port=8000
-      - traefik.frontend.rule=Host:drone.${HOMESERVER_DOMAIN}
     environment:
-      - DRONE_OPEN=true
       - DRONE_GITHUB=true
     env_file: 
       - ${SETTINGS_PATH}/drone/secrets.env
     volumes:
       - ${SETTINGS_PATH}/drone:/var/lib/drone/
     networks:
+      - drone
       - homeserver2
+
   drone-agent:
-    image: drone/drone
+    image: drone/agent:0.8.1
     command: agent
     restart: always
-    depends_on: [ drone-server ]
+    depends_on: [ drone-server  ]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_SERVER=ws://drone-server:8000/ws/broker
+      - DRONE_SERVER=drone-server:9000
       - DRONE_GITHUB=true
     env_file: ${SETTINGS_PATH}/drone/secrets.env
     networks:
-      - homeserver2
+      - drone
 
 networks:
+  drone:
   homeserver2:
     external: true

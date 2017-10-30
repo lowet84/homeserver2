@@ -9,7 +9,7 @@ services:
     volumes:
     - /mnt/filer/Settings/gitlab/redis:/var/lib/redis:Z
     networks:
-    - homeserver2
+    - gitlab
 
   postgresql:
     restart: always
@@ -22,7 +22,7 @@ services:
     - DB_NAME=gitlabhq_production
     - DB_EXTENSION=pg_trgm
     networks:
-    - homeserver2
+    - gitlab
 
   gitlab:
     restart: always
@@ -31,6 +31,7 @@ services:
     - redis
     - postgresql
     networks:
+    - gitlab
     - homeserver2
     volumes:
     - /mnt/filer/Settings/gitlab/gitlab:/home/git/data:Z
@@ -40,6 +41,7 @@ services:
       - traefik.frontend.passHostHeader=true
       - traefik.port=80
       - traefik.frontend.rule=Host:gitlab.local
+      - traefik.docker.network=homeserver2
     environment:
     - DEBUG=false
 
@@ -159,5 +161,6 @@ services:
     - OAUTH_AZURE_TENANT_ID=
 
 networks:
+  gitlab:
   homeserver2:
     external: true
