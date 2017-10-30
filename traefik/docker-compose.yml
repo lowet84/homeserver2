@@ -22,7 +22,7 @@ services:
     restart: always
     ports: 
       - 31080:80
-      - 31443:443
+      - 443:443
     labels:
       - traefik.enable=true
       - traefik.backend=public
