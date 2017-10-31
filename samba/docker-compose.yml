@@ -7,5 +7,5 @@ services:
     restart: always
     command: sh start.sh
     volumes:
-      - /mnt/filer/Settings/samba/smb.conf:/etc/samba/smb.conf
-      - /mnt/filer/:/data
+      - ${SETTINGS_PATH}/samba/smb.conf:/etc/samba/smb.conf
+      - ${FILES_PATH}:/data

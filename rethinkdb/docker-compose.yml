@@ -10,9 +10,9 @@ services:
       - traefik.backend=rethinkdb
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
-      - traefik.frontend.rule=Host:rethinkdb.local
+      - traefik.frontend.rule=Host:rethinkdb.${HOMESERVER_DOMAIN}
     volumes:
-      - /mnt/filer/Settings/rethinkdb:/data
+      - ${SETTINGS_PATH}/rethinkdb:/data
     networks:
       - homeserver2
 

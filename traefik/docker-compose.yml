@@ -10,7 +10,7 @@ services:
       - traefik.backend=traefik
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
-      - traefik.frontend.rule=Host:traefik.local
+      - traefik.frontend.rule=Host:traefik.${HOMESERVER_DOMAIN}
     command: --web --docker --logLevel=DEBUG --docker.exposedbydefault=false
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -28,10 +28,10 @@ services:
       - traefik.backend=public
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
-      - traefik.frontend.rule=Host:traefik-public.local
+      - traefik.frontend.rule=Host:traefik-public.${HOMESERVER_DOMAIN}
     command: --web --logLevel=DEBUG --configfile=/config/traefik-public.toml
     volumes:
-      - /mnt/filer/Settings/traefik:/config
+      - ${SETTINGS_PATH}/traefik:/config
     networks:
       - homeserver2
 

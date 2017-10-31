@@ -1,11 +1,11 @@
-version: '2'
+version: '3'
 services:
   portainer:
     image: portainer/portainer
     restart: always
     volumes: 
      - /var/run/docker.sock:/var/run/docker.sock
-     - /mnt/filer/Settings/portainer:/data
+     - ${SETTINGS_PATH}/portainer:/data
     networks:
       - homeserver2
     labels:
@@ -13,7 +13,7 @@ services:
       - traefik.backend=portainer
       - traefik.frontend.passHostHeader=true
       - traefik.port=9000
-      - traefik.frontend.rule=Host:portainer.local
+      - traefik.frontend.rule=Host:portainer.${HOMESERVER_DOMAIN}
 
 networks:
   homeserver2:

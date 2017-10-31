@@ -1,12 +1,12 @@
-version: '2'
+version: '3'
 
 services:
   sabnzbd:
     image: linuxserver/sabnzbd
     volumes:
-      - /mnt/filer/Downloads:/data/Downloads
-      - /mnt/filer/Film:/data/Film
-      - /mnt/filer/Settings/sabnzbd:/config
+      - ${FILES_PATH}/Downloads:/data/Downloads
+      - ${FILES_PATH}/Film:/data/Film
+      - ${SETTINGS_PATH}/sabnzbd:/config
     restart: always
     networks:
       - homeserver2
@@ -18,17 +18,17 @@ services:
       - traefik.backend=sabnzbd 
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
-      - traefik.frontend.rule=Host:sabnzbd.local
+      - traefik.frontend.rule=Host:sabnzbd.${HOMESERVER_DOMAIN}
 
   sonarr:
     image: linuxserver/sonarr
     volumes:
      - /dev/rtc:/dev/rtc:ro
-     - /mnt/filer/Settings/sonarr:/config
-     - /mnt/filer/Rar2fs/Downloads:/data/Downloads
-     - /mnt/filer/Rar2fs/TV:/data/TV
-     - /mnt/filer/Rar2fs/TVCharlotte:/data/TVCharlotte
-     - /mnt/filer/Anime:/data/Anime
+     - ${SETTINGS_PATH}/sonarr:/config
+     - ${RAR2FS_PATH}/Downloads:/data/Downloads
+     - ${RAR2FS_PATH}/TV:/data/TV
+     - ${RAR2FS_PATH}/TVCharlotte:/data/TVCharlotte
+     - ${FILES_PATH}/Anime:/data/Anime
     restart: always
     networks:
       - homeserver2
@@ -40,26 +40,7 @@ services:
       - traefik.backend=sonarr
       - traefik.frontend.passHostHeader=true
       - traefik.port=8989
-      - traefik.frontend.rule=Host:sonarr.local
-  
-#  deluge:
-#    image: linuxserver/deluge
-#    restart: always
-#    networks:
-#      - homeserver2
-#    environment:
-#     - PUID=0
-#     - GUID=0
-#     - TZ=SE
-#    labels:
-#      - traefik.enable=true
-#      - traefik.backend=deluge
-#      - traefik.frontend.passHostHeader=true
-#      - traefik.port=8112
-#      - traefik.frontend.rule=Host:deluge.local
-#    volumes:
-#      - /mnt/filer/Settings/deluge:/config
-#      - /mnt/filer/:/data
+      - traefik.frontend.rule=Host:sonarr.${HOMESERVER_DOMAIN}
 
   plex:
     image: linuxserver/plex
@@ -72,16 +53,16 @@ services:
     restart: always
     network_mode: "host"
     volumes:
-      - /mnt/filer/Settings/plex:/config
-      - /mnt/filer/Rar2fs:/data
+      - ${SETTINGS_PATH}/plex:/config
+      - ${RAR2FS_PATH}:/data
 
   radarr:
     image: linuxserver/radarr
     volumes:
      - /dev/rtc:/dev/rtc:ro
-     - /mnt/filer/Settings/radarr:/config
-     - /mnt/filer/Rar2fs/Downloads:/data/Downloads
-     - /mnt/filer/Rar2fs/Film:/data/Film
+     - ${SETTINGS_PATH}/radarr:/config
+     - ${RAR2FS_PATH}/Downloads:/data/Downloads
+     - ${RAR2FS_PATH}/Film:/data/Film
     restart: always
     networks:
       - homeserver2
@@ -93,7 +74,7 @@ services:
       - traefik.backend=radarr
       - traefik.frontend.passHostHeader=true
       - traefik.port=7878
-      - traefik.frontend.rule=Host:radarr.local
+      - traefik.frontend.rule=Host:radarr.${HOMESERVER_DOMAIN}
 
 networks:
   homeserver2:
