@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   redis:
@@ -7,7 +7,7 @@ services:
     command:
     - --loglevel warning
     volumes:
-    - /mnt/filer/Settings/gitlab/redis:/var/lib/redis:Z
+    - ${SETTINGS_PATH}/gitlab/redis:/var/lib/redis:Z
     networks:
     - gitlab
 
@@ -15,7 +15,7 @@ services:
     restart: always
     image: sameersbn/postgresql:9.6-2
     volumes:
-    - /mnt/filer/Settings/gitlab/postgres:/var/lib/postgresql:Z
+    - ${SETTINGS_PATH}/gitlab/postgres:/var/lib/postgresql:Z
     environment:
     - DB_USER=gitlab
     - DB_PASS=password
@@ -34,13 +34,13 @@ services:
     - gitlab
     - homeserver2
     volumes:
-    - /mnt/filer/Settings/gitlab/gitlab:/home/git/data:Z
+    - ${SETTINGS_PATH}/gitlab/gitlab:/home/git/data:Z
     labels:
       - traefik.enable=true
       - traefik.backend=gitlab
       - traefik.frontend.passHostHeader=true
       - traefik.port=80
-      - traefik.frontend.rule=Host:gitlab.local
+      - traefik.frontend.rule=Host:gitlab.${HOMESERVER_DOMAIN}
       - traefik.docker.network=homeserver2
     environment:
     - DEBUG=false
