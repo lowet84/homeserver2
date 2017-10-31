@@ -5,9 +5,9 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - /mnt/filer/Settings/delugevpn/vpn:/etc/openvpn
-      - /mnt/filer/Settings/delugevpn/deluge:/config
-      - /mnt/filer:/data
+      - ${SETTINGS_PATH}/delugevpn/vpn:/etc/openvpn
+      - ${SETTINGS_PATH}/delugevpn/deluge:/config
+      - ${FILES_PATH}:/data
     devices:
       - /dev/net/tun
     labels:
@@ -15,7 +15,7 @@ services:
       - traefik.backend=delugevpn
       - traefik.frontend.passHostHeader=true
       - traefik.port=8112
-      - traefik.frontend.rule=Host:delugevpn.local
+      - traefik.frontend.rule=Host:delugevpn.${HOMESERVER_DOMAIN}
     networks:
       - homeserver2
 

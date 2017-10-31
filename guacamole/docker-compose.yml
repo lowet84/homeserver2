@@ -1,12 +1,10 @@
-version: '2'
+version: '3'
 services:
   mysql:
     image: mysql
-    ports:
-      - 3306
     restart: always
     volumes:
-      - /mnt/filer/Settings/guacamole:/var/lib/mysql
+      - ${SETTINGS_PATH}/guacamole:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: gurkburk
     networks:
@@ -16,7 +14,7 @@ services:
     image: lowet84/mysql-guacamole-init
     build: init/
     volumes:
-     - /mnt/filer/Settings/guacamole:/data
+     - ${SETTINGS_PATH}/guacamole:/data
     environment:
       PASSWORD: gurkburk
     networks:
@@ -31,8 +29,6 @@ services:
   guacamole:
     image: lowet84/guacamole
     build: guacamole/
-#    ports:
-#      - 8008:8080
     restart: always
     networks:
       - guacamole

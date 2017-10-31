@@ -9,13 +9,6 @@ services:
       - ${SETTINGS_PATH}/drone/secrets.env
     volumes:
       - ${SETTINGS_PATH}/drone:/var/lib/drone/
-    labels:
-      - traefik.enable=true
-      - traefik.backend=drone-server
-      - traefik.frontend.passHostHeader=true
-      - traefik.port=8000
-      - traefik.frontend.rule=Host:drone.local
-      - traefik.docker.network=homeserver2
     networks:
       - drone
       - homeserver2
