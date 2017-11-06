@@ -16,6 +16,11 @@ services:
       - traefik.frontend.passHostHeader=true
       - traefik.port=8112
       - traefik.frontend.rule=Host:delugevpn.${HOMESERVER_DOMAIN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://ifconfig.co/json"]
+      interval: 5m
+      timeout: 15s
+      retries: 1
     networks:
       - homeserver2
 
