@@ -13,6 +13,7 @@ services:
       - homeserver2
     environment:
       - DATABASE=rethinkdb
+      - RESET=true
 
 networks:
   homeserver2:

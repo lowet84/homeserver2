@@ -28,7 +28,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - DRONE_SERVER=when-drone-server:9000
-      - DRONE_GITHUB=true
+      - DRONE_GOGS=true
     env_file: ${SETTINGS_PATH}/drone/secrets.env
     networks:
       - when-drone
