@@ -1,0 +1,5 @@
+version: '3'
+services:
+  oauth2proxy:
+    image: a5huynh/oauth2_proxy
+    
