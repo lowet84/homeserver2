@@ -17,7 +17,7 @@ services:
       - traefik.port=8112
       - traefik.frontend.rule=Host:delugevpn.${HOMESERVER_DOMAIN}
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://ifconfig.co/json"]
+      test: ["CMD", "curl", "-f", "https://ifconfig.co/json", "|", "grep", "vpn.ipredator.se"]
       interval: 5m
       timeout: 15s
       retries: 1
