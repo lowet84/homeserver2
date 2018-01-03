@@ -22,5 +22,6 @@ ADD iptable.sh /iptable.sh
 RUN chmod +x /iptable.sh
 
 RUN mkdir -p /config
+ADD health.sh /health.sh
 
 CMD /sbin/my_init

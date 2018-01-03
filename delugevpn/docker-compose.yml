@@ -18,7 +18,7 @@ services:
       - traefik.frontend.rule=Host:delugevpn.${HOMESERVER_DOMAIN}
       - traefik.docker.network=homeserver2
     healthcheck:
-      test: ["CMD", "curl", "-f", "https://ifconfig.co/json", "|", "grep", "vpn.ipredator.se"]
+      test: ["CMD", "sh", "/health.sh"]
       interval: 1m
       timeout: 30s
       retries: 3
