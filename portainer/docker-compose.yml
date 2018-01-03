@@ -6,6 +6,7 @@ services:
     volumes: 
      - /var/run/docker.sock:/var/run/docker.sock
      - ${SETTINGS_PATH}/portainer:/data
+    command: --no-auth
     networks:
       - homeserver2
     labels:
