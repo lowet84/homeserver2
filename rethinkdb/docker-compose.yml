@@ -5,6 +5,7 @@ services:
     ports:
       - 28015:28015
     restart: always
+    command: rethinkdb --bind all
     labels:
       - traefik.enable=true
       - traefik.backend=rethinkdb
