@@ -14,6 +14,8 @@ services:
     environment:
       - DATABASE=rethinkdb
       - DATAPATH=/data
+    volumes:
+     - ${FILES_PATH}/Audiobooks:/data
 
 networks:
   homeserver2:
