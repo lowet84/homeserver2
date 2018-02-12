@@ -5,12 +5,7 @@ services:
     restart: always
     networks:
       - homeserver2
-    labels:
-      - traefik.enable=true
-      - traefik.backend=nextcloud
-      - traefik.frontend.passHostHeader=true
-      - traefik.port=80
-      - traefik.frontend.rule=Host:nextcloud.${HOMESERVER_DOMAIN}
+      - nextcloud
     volumes:
      - ${SETTINGS_PATH}/nextcloud/html:/var/www/html
 
@@ -25,8 +20,9 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
     networks:
-      - homeserver2
+      - nextcloud
 
 networks:
   homeserver2:
     external: true
+  nextcloud:
