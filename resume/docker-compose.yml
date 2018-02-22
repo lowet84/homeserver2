@@ -8,6 +8,13 @@ services:
     environment:
       - DATABASE=rethinkdb
       - RESET=true
+    labels:
+      - traefik.enable=true
+      - traefik.backend=resume
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=7000
+      - traefik.docker.network=homeserver2
+      - traefik.frontend.rule=Host:${HOMESERVER_DOMAIN}
 
 networks:
   homeserver2:
