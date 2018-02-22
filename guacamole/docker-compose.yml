@@ -7,6 +7,8 @@ services:
       - ${SETTINGS_PATH}/guacamole:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: gurkburk
+    labels:
+      - traefik.enable=false
     networks:
       - guacamole
 
@@ -17,12 +19,16 @@ services:
      - ${SETTINGS_PATH}/guacamole:/data
     environment:
       PASSWORD: gurkburk
+    labels:
+      - traefik.enable=false
     networks:
       - guacamole
 
   guacd:
     image: glyptodon/guacd
     restart: always
+    labels:
+      - traefik.enable=false
     networks:
       - guacamole
 
@@ -41,6 +47,13 @@ services:
       MYSQL_HOSTNAME: mysql
       GUACD_PORT_4822_TCP_ADDR: guacd
       GUACD_PORT_4822_TCP_PORT: 4822
+    labels:
+      - traefik.enable=true
+      - traefik.backend=guacamole
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8080
+      - traefik.docker.network=homeserver2
+      - traefik.frontend.rule=Host:guacamole.${HOMESERVER_DOMAIN}    
 
 networks:
   guacamole:

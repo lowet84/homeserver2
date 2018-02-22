@@ -6,6 +6,8 @@ services:
     env_file: ${SETTINGS_PATH}/oauth2proxy/secrets.env
     networks:
       - homeserver2
+    labels:
+      - traefik.enable=false
 
 networks:
   homeserver2:

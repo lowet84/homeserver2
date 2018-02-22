@@ -1,0 +1,20 @@
+version: '3'
+services:
+  desktop:
+    image: dorowu/ubuntu-desktop-lxde-vnc
+    restart: always
+    networks:
+      - homeserver2
+    env_file: ${SETTINGS_PATH}/desktop/secrets.env
+#    labels:
+#      - traefik.enable=true
+#      - traefik.backend=desktop
+#      - traefik.frontend.passHostHeader=true
+#      - traefik.port=80
+#      - traefik.frontend.rule=Host:xfce.${HOMESERVER_DOMAIN}
+#    volumes:
+#     - ${SETTINGS_PATH}/nextcloud/html:/var/www/html
+
+networks:  
+  homeserver2:
+    external: true

@@ -8,6 +8,13 @@ services:
       - nextcloud
     volumes:
      - ${SETTINGS_PATH}/nextcloud/html:/var/www/html
+    labels:
+      - traefik.enable=true
+      - traefik.backend=nextcloud
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=80
+      - traefik.docker.network=homeserver2
+      - traefik.frontend.rule=Host:nextcloud.${HOMESERVER_DOMAIN}
 
   db:
     image: mariadb
@@ -21,6 +28,8 @@ services:
       - MYSQL_USER=nextcloud
     networks:
       - nextcloud
+    labels:
+      - traefik.enable=false
 
 networks:
   homeserver2:

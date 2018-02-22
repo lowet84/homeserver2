@@ -4,12 +4,11 @@ services:
     image: traefik:1.5.1-alpine
     restart: always
     labels:
-      - traefik.enable=true
       - traefik.backend=traefik
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
       - traefik.frontend.rule=Host:traefik.${HOMESERVER_DOMAIN}
-    command: --web --logLevel=DEBUG --docker.exposedbydefault=false
+    command: --web --logLevel=DEBUG --docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -22,14 +21,14 @@ services:
       - 80:80
       - 443:443
     labels:
-      - traefik.enable=true
       - traefik.backend=public
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
       - traefik.frontend.rule=Host:ptraefik.${HOMESERVER_DOMAIN}
-    command: --web --logLevel=DEBUG --configfile=/config/traefik-public.toml
+    command: --web --logLevel=DEBUG --configfile=/config/traefik-public.toml --docker.exposedbydefault=false
     volumes:
       - ${SETTINGS_PATH}/traefik:/config
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - homeserver2
 
