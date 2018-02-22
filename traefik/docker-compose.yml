@@ -15,7 +15,8 @@ services:
       - homeserver2    
 
   public:
-    image: traefik:1.5.1-alpine
+    image: public-traefik  #traefik:1.5.1-alpine
+    build: .
     restart: always
     ports: 
       - 80:80
@@ -25,7 +26,7 @@ services:
       - traefik.frontend.passHostHeader=true
       - traefik.port=8080
       - traefik.frontend.rule=Host:ptraefik.${HOMESERVER_DOMAIN}
-    command: --web --logLevel=DEBUG --configfile=/config/traefik-public.toml --docker.exposedbydefault=false
+    command: --web --logLevel=DEBUG --configfile=/toml/traefik-public.toml --docker.exposedbydefault=false
     volumes:
       - ${SETTINGS_PATH}/traefik:/config
       - /var/run/docker.sock:/var/run/docker.sock
