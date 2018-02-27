@@ -36,17 +36,6 @@ services:
     networks:
       - drone
 
-  drone-docker-agent:
-    command: agent
-    build: .
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      - traefik.enable=false
-    networks:
-      - drone
-
 networks:
   drone:
   homeserver2:
