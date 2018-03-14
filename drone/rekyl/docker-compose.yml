@@ -1,0 +1,42 @@
+version: '3'
+services:
+  rekyl-drone-server:
+    image: drone/drone:0.8.1
+    restart: always
+    environment:
+      - DRONE_GITHUB=true
+    env_file: 
+      - ${SETTINGS_PATH}/rekyl-drone/secrets.env
+    volumes:
+      - ${SETTINGS_PATH}/rekyl-drone:/var/lib/drone/
+    labels:
+      - traefik.enable=true
+      - traefik.backend=rekyl-drone-server
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8000
+      - traefik.docker.network=homeserver2
+      - traefik.frontend.rule=Host:rekyldrone.${HOMESERVER_DOMAIN}
+    networks:
+      - rekyl-drone
+      - homeserver2
+
+  rekyl-drone-agent:
+    image: drone/agent:0.8.1
+    command: agent
+    restart: always
+    depends_on: [ rekyl-drone-server  ]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.enable=false
+    environment:
+      - DRONE_SERVER=rekyl-drone-server:9000
+      - DRONE_GITHUB=true
+    env_file: ${SETTINGS_PATH}/rekyl-drone/secrets.env
+    networks:
+      - rekyl-drone
+
+networks:
+  rekyl-drone:
+  homeserver2:
+    external: true
