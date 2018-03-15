@@ -1,7 +1,8 @@
 version: '3'
 services:
   oauth2proxy:
-    image: a5huynh/oauth2_proxy
+    #image: a5huynh/oauth2_proxy
+    build: .
     command: --cookie-secure=false --upstream="http://traefik:80" --http-address="0.0.0.0:4180" --redirect-url="https://portal.${HOMESERVER_DOMAIN}/oauth2/callback" --email-domain="gmail.com"
     env_file: ${SETTINGS_PATH}/oauth2proxy/secrets.env
     networks:
