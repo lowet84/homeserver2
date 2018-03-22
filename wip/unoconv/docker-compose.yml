@@ -1,0 +1,17 @@
+version: '3'
+services:
+  unoconv:
+    image: imkulikov/docker-unoconv-api
+    restart: always
+    networks:
+      - homeserver2
+    labels:
+      - traefik.enable=true
+      - traefik.backend=unoconv
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=3000
+      - traefik.frontend.rule=Host:unoconv.${HOMESERVER_DOMAIN}
+
+networks:
+  homeserver2:
+    external: true
