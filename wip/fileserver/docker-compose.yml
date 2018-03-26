@@ -1,0 +1,20 @@
+version: '3'
+services:
+  fileserver:
+    image: pierrezemb/gostatic
+    restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.backend=fileserver
+      - traefik.frontend.passHostHeader=true
+      - traefik.port=8043
+      - traefik.frontend.rule=Host:files.${HOMESERVER_DOMAIN}
+    volumes:
+      - ${FILES_PATH}/Audiobooks:/srv/http
+    networks:
+      - homeserver2    
+
+networks:
+  homeserver2:
+    external: true
+        

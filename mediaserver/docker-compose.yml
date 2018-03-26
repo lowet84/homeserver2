@@ -6,6 +6,7 @@ services:
     volumes:
       - ${FILES_PATH}/Downloads:/data/Downloads
       - ${FILES_PATH}/Film:/data/Film
+      - ${FILES_PATH}/Books:/data/Books
       - ${SETTINGS_PATH}/sabnzbd:/config
     restart: always
     networks:
@@ -55,6 +56,7 @@ services:
     volumes:
       - ${SETTINGS_PATH}/plex:/config
       - ${RAR2FS_PATH}:/data
+      - ${FILES_PATH}:/files
 
   radarr:
     image: linuxserver/radarr
